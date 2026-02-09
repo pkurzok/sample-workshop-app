@@ -12,7 +12,9 @@ struct LoginView: View {
     @State var email = ""
     @State var password = ""
     @State private var isLoggedIn = false
-    @State var errorMessage: String?
+    @State var bannerMessage: String?
+    @State var emailError: String?
+    @State var passwordError: String?
 
     var body: some View {
         if isLoggedIn {
@@ -43,21 +45,21 @@ struct LoginView: View {
             .padding(.bottom, 40)
 
             // Error banner
-            if let bannerText = errorBannerText {
-                ErrorBanner(bannerText)
+            if let bannerMessage {
+                ErrorBanner(bannerMessage)
                     .padding(.horizontal, AppTheme.horizontalPadding)
                     .padding(.bottom, 12)
             }
 
             // Input fields
             VStack(spacing: 16) {
-                StyledTextField("Email", text: $email, hasError: fieldHasError("email"), errorMessage: "Please enter a valid email address")
+                StyledTextField("Email", text: $email, hasError: emailError != nil, errorMessage: emailError)
                     .textContentType(.emailAddress)
                     .keyboardType(.emailAddress)
                     .autocorrectionDisabled()
                     .textInputAutocapitalization(.never)
 
-                StyledTextField("Password", text: $password, isSecure: true, hasError: fieldHasError("password"), errorMessage: "Password is required")
+                StyledTextField("Password", text: $password, isSecure: true, hasError: passwordError != nil, errorMessage: passwordError)
                     .textContentType(.password)
             }
             .padding(.horizontal, AppTheme.horizontalPadding)
@@ -105,37 +107,22 @@ struct LoginView: View {
     }
 
     private func attemptSignIn() {
+        bannerMessage = nil
+        emailError = nil
+        passwordError = nil
+
         if email.isEmpty && password.isEmpty {
-            errorMessage = "emptyFields"
+            bannerMessage = "Please fill in all fields"
+            emailError = "Email is required"
+            passwordError = "Password is required"
         } else if email.isEmpty || !email.contains("@") {
-            errorMessage = "invalidEmail"
+            bannerMessage = "Please enter a valid email address"
+            emailError = "Please enter a valid email address"
         } else if password.isEmpty {
-            errorMessage = "missingPassword"
+            bannerMessage = "Password is required"
+            passwordError = "Password is required"
         } else {
-            errorMessage = nil
             isLoggedIn = true
-        }
-    }
-
-    private func fieldHasError(_ field: String) -> Bool {
-        guard let error = errorMessage else { return false }
-        switch field {
-        case "email":
-            return error == "emptyFields" || error == "invalidEmail"
-        case "password":
-            return error == "emptyFields" || error == "missingPassword"
-        default:
-            return false
-        }
-    }
-
-    private var errorBannerText: String? {
-        guard let error = errorMessage else { return nil }
-        switch error {
-        case "emptyFields": return "Please fill in all fields"
-        case "invalidEmail": return "Please enter a valid email address"
-        case "missingPassword": return "Password is required"
-        default: return nil
         }
     }
 }
@@ -145,15 +132,27 @@ struct LoginView: View {
 }
 
 #Preview("Empty Fields Error") {
-    LoginView(errorMessage: "emptyFields")
+    LoginView(
+        bannerMessage: "Please fill in all fields",
+        emailError: "Email is required",
+        passwordError: "Password is required"
+    )
 }
 
 #Preview("Invalid Email Error") {
-    LoginView(email: "bad-email", errorMessage: "invalidEmail")
+    LoginView(
+        email: "bad-email",
+        bannerMessage: "Please enter a valid email address",
+        emailError: "Please enter a valid email address"
+    )
 }
 
 #Preview("Missing Password Error") {
-    LoginView(email: "user@example.com", errorMessage: "missingPassword")
+    LoginView(
+        email: "user@example.com",
+        bannerMessage: "Password is required",
+        passwordError: "Password is required"
+    )
 }
 
 #Preview("Filled In") {
