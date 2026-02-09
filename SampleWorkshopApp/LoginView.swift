@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct LoginView: View {
     @State var email = ""
@@ -29,7 +30,7 @@ struct LoginView: View {
             VStack(spacing: 12) {
                 Image(systemName: "person.circle.fill")
                     .font(.system(size: 80))
-                    .foregroundStyle(.blue)
+                    .foregroundStyle(AppTheme.accentGradient)
 
                 Text("Welcome Back")
                     .font(.largeTitle)
@@ -43,64 +44,23 @@ struct LoginView: View {
 
             // Error banner
             if let bannerText = errorBannerText {
-                HStack(spacing: 8) {
-                    Image(systemName: "exclamationmark.triangle.fill")
-                    Text(bannerText)
-                }
-                .font(.subheadline)
-                .foregroundStyle(.white)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding()
-                .background(.red.gradient)
-                .cornerRadius(12)
-                .padding(.horizontal, 24)
-                .padding(.bottom, 12)
+                ErrorBanner(bannerText)
+                    .padding(.horizontal, AppTheme.horizontalPadding)
+                    .padding(.bottom, 12)
             }
 
             // Input fields
             VStack(spacing: 16) {
-                VStack(alignment: .leading, spacing: 4) {
-                    TextField("Email", text: $email)
-                        .textContentType(.emailAddress)
-                        .keyboardType(.emailAddress)
-                        .autocorrectionDisabled()
-                        .textInputAutocapitalization(.never)
-                        .padding()
-                        .background(Color(.secondarySystemBackground))
-                        .cornerRadius(12)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 12)
-                                .stroke(fieldHasError("email") ? .red : .clear, lineWidth: 1)
-                        )
+                StyledTextField("Email", text: $email, hasError: fieldHasError("email"), errorMessage: "Please enter a valid email address")
+                    .textContentType(.emailAddress)
+                    .keyboardType(.emailAddress)
+                    .autocorrectionDisabled()
+                    .textInputAutocapitalization(.never)
 
-                    if fieldHasError("email") {
-                        Text("Please enter a valid email address")
-                            .font(.caption)
-                            .foregroundStyle(.red)
-                            .padding(.leading, 4)
-                    }
-                }
-
-                VStack(alignment: .leading, spacing: 4) {
-                    SecureField("Password", text: $password)
-                        .textContentType(.password)
-                        .padding()
-                        .background(Color(.secondarySystemBackground))
-                        .cornerRadius(12)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 12)
-                                .stroke(fieldHasError("password") ? .red : .clear, lineWidth: 1)
-                        )
-
-                    if fieldHasError("password") {
-                        Text("Password is required")
-                            .font(.caption)
-                            .foregroundStyle(.red)
-                            .padding(.leading, 4)
-                    }
-                }
+                StyledTextField("Password", text: $password, isSecure: true, hasError: fieldHasError("password"), errorMessage: "Password is required")
+                    .textContentType(.password)
             }
-            .padding(.horizontal, 24)
+            .padding(.horizontal, AppTheme.horizontalPadding)
 
             // Forgot password
             HStack {
@@ -108,45 +68,27 @@ struct LoginView: View {
                 Button("Forgot Password?") {}
                     .font(.footnote)
                     .padding(.top, 8)
-                    .padding(.trailing, 24)
+                    .padding(.trailing, AppTheme.horizontalPadding)
             }
 
             // Sign in button
-            Button {
+            PrimaryButton("Sign In") {
                 attemptSignIn()
-            } label: {
-                Text("Sign In")
-                    .fontWeight(.semibold)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(.blue)
-                    .foregroundStyle(.white)
-                    .cornerRadius(12)
             }
-            .padding(.horizontal, 24)
+            .padding(.horizontal, AppTheme.horizontalPadding)
             .padding(.top, 24)
 
             // Divider
-            HStack {
-                Rectangle()
-                    .frame(height: 1)
-                    .foregroundStyle(.secondary.opacity(0.3))
-                Text("or")
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-                Rectangle()
-                    .frame(height: 1)
-                    .foregroundStyle(.secondary.opacity(0.3))
-            }
-            .padding(.horizontal, 24)
-            .padding(.vertical, 20)
+            BrandedDivider()
+                .padding(.horizontal, AppTheme.horizontalPadding)
+                .padding(.vertical, 20)
 
             // Social sign-in buttons
             HStack(spacing: 16) {
-                socialButton(icon: "apple.logo", label: "Apple")
-                socialButton(icon: "g.circle.fill", label: "Google")
+                SocialButton(icon: "apple.logo", label: "Apple")
+                SocialButton(icon: "g.circle.fill", label: "Google")
             }
-            .padding(.horizontal, 24)
+            .padding(.horizontal, AppTheme.horizontalPadding)
 
             Spacer()
 
@@ -194,20 +136,6 @@ struct LoginView: View {
         case "invalidEmail": return "Please enter a valid email address"
         case "missingPassword": return "Password is required"
         default: return nil
-        }
-    }
-
-    private func socialButton(icon: String, label: String) -> some View {
-        Button {} label: {
-            HStack {
-                Image(systemName: icon)
-                Text(label)
-            }
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(Color(.secondarySystemBackground))
-            .cornerRadius(12)
-            .foregroundStyle(.primary)
         }
     }
 }

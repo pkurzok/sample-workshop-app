@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct ChatMessage: Identifiable {
     let id = UUID()
@@ -32,7 +33,7 @@ struct SupportChatView: View {
                     .foregroundStyle(.secondary)
             }
             .padding()
-            .background(Color(.secondarySystemBackground))
+            .background(AppTheme.cardBackground)
 
             // Messages
             ScrollView {
@@ -48,13 +49,13 @@ struct SupportChatView: View {
             HStack(spacing: 12) {
                 TextField("Type a message...", text: $messageText)
                     .padding(10)
-                    .background(Color(.secondarySystemBackground))
+                    .background(AppTheme.cardBackground)
                     .cornerRadius(20)
 
                 Button {} label: {
                     Image(systemName: "arrow.up.circle.fill")
                         .font(.title)
-                        .foregroundStyle(.blue)
+                        .foregroundStyle(AppTheme.accentGradient)
                 }
             }
             .padding()
@@ -69,9 +70,9 @@ struct SupportChatView: View {
                 Text(message.text)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 8)
-                    .background(message.isFromSupport ? Color(.secondarySystemBackground) : Color.blue)
+                    .background(message.isFromSupport ? AppTheme.cardBackground : Color.indigo)
                     .foregroundColor(message.isFromSupport ? .primary : .white)
-                    .cornerRadius(16)
+                    .cornerRadius(AppTheme.cornerRadius)
 
                 Text(currentTimestamp)
                     .font(.caption2)
