@@ -12,9 +12,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install xcbeautify
+        run: brew install xcbeautify
+
       - name: Run tests
         run: |
+          set -o pipefail
           xcodebuild test \
             -scheme SampleWorkshopApp \
             -destination 'platform=iOS Simulator,name=iPhone 16' \
-            -resultBundlePath TestResults.xcresult
+            -resultBundlePath TestResults.xcresult \
+            2>&1 | xcbeautify
