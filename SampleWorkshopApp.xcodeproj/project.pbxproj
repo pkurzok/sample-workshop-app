@@ -201,11 +201,11 @@
 			);
 			mainGroup = A74FD9E02F3A2672000A32F5;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
-			productRefGroup = A74FD9EA2F3A2672000A32F5 /* Products */;
 			packageReferences = (
 				A74FDA222F3A2674000A32F5 /* XCLocalSwiftPackageReference "DesignSystem" */,
 			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = A74FD9EA2F3A2672000A32F5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
