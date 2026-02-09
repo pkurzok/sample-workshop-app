@@ -15,7 +15,7 @@ struct LoginView: View {
 
     var body: some View {
         if isLoggedIn {
-            ContentView()
+            SupportChatView(messages: SupportChatView.sampleMessages)
         } else {
             loginContent
         }
