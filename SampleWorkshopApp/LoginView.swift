@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct LoginView: View {
-    @State private var email = ""
-    @State private var password = ""
+    @State var email = ""
+    @State var password = ""
     @State private var isLoggedIn = false
+    @State var errorMessage: String?
 
     var body: some View {
         if isLoggedIn {
@@ -40,22 +41,64 @@ struct LoginView: View {
             }
             .padding(.bottom, 40)
 
+            // Error banner
+            if let bannerText = errorBannerText {
+                HStack(spacing: 8) {
+                    Image(systemName: "exclamationmark.triangle.fill")
+                    Text(bannerText)
+                }
+                .font(.subheadline)
+                .foregroundStyle(.white)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding()
+                .background(.red.gradient)
+                .cornerRadius(12)
+                .padding(.horizontal, 24)
+                .padding(.bottom, 12)
+            }
+
             // Input fields
             VStack(spacing: 16) {
-                TextField("Email", text: $email)
-                    .textContentType(.emailAddress)
-                    .keyboardType(.emailAddress)
-                    .autocorrectionDisabled()
-                    .textInputAutocapitalization(.never)
-                    .padding()
-                    .background(Color(.secondarySystemBackground))
-                    .cornerRadius(12)
+                VStack(alignment: .leading, spacing: 4) {
+                    TextField("Email", text: $email)
+                        .textContentType(.emailAddress)
+                        .keyboardType(.emailAddress)
+                        .autocorrectionDisabled()
+                        .textInputAutocapitalization(.never)
+                        .padding()
+                        .background(Color(.secondarySystemBackground))
+                        .cornerRadius(12)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(fieldHasError("email") ? .red : .clear, lineWidth: 1)
+                        )
 
-                SecureField("Password", text: $password)
-                    .textContentType(.password)
-                    .padding()
-                    .background(Color(.secondarySystemBackground))
-                    .cornerRadius(12)
+                    if fieldHasError("email") {
+                        Text("Please enter a valid email address")
+                            .font(.caption)
+                            .foregroundStyle(.red)
+                            .padding(.leading, 4)
+                    }
+                }
+
+                VStack(alignment: .leading, spacing: 4) {
+                    SecureField("Password", text: $password)
+                        .textContentType(.password)
+                        .padding()
+                        .background(Color(.secondarySystemBackground))
+                        .cornerRadius(12)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(fieldHasError("password") ? .red : .clear, lineWidth: 1)
+                        )
+
+                    if fieldHasError("password") {
+                        Text("Password is required")
+                            .font(.caption)
+                            .foregroundStyle(.red)
+                            .padding(.leading, 4)
+                    }
+                }
             }
             .padding(.horizontal, 24)
 
@@ -70,7 +113,7 @@ struct LoginView: View {
 
             // Sign in button
             Button {
-                isLoggedIn = true
+                attemptSignIn()
             } label: {
                 Text("Sign In")
                     .fontWeight(.semibold)
@@ -119,6 +162,41 @@ struct LoginView: View {
         }
     }
 
+    private func attemptSignIn() {
+        if email.isEmpty && password.isEmpty {
+            errorMessage = "emptyFields"
+        } else if email.isEmpty || !email.contains("@") {
+            errorMessage = "invalidEmail"
+        } else if password.isEmpty {
+            errorMessage = "missingPassword"
+        } else {
+            errorMessage = nil
+            isLoggedIn = true
+        }
+    }
+
+    private func fieldHasError(_ field: String) -> Bool {
+        guard let error = errorMessage else { return false }
+        switch field {
+        case "email":
+            return error == "emptyFields" || error == "invalidEmail"
+        case "password":
+            return error == "emptyFields" || error == "missingPassword"
+        default:
+            return false
+        }
+    }
+
+    private var errorBannerText: String? {
+        guard let error = errorMessage else { return nil }
+        switch error {
+        case "emptyFields": return "Please fill in all fields"
+        case "invalidEmail": return "Please enter a valid email address"
+        case "missingPassword": return "Password is required"
+        default: return nil
+        }
+    }
+
     private func socialButton(icon: String, label: String) -> some View {
         Button {} label: {
             HStack {
@@ -134,6 +212,22 @@ struct LoginView: View {
     }
 }
 
-#Preview {
+#Preview("Default") {
     LoginView()
+}
+
+#Preview("Empty Fields Error") {
+    LoginView(errorMessage: "emptyFields")
+}
+
+#Preview("Invalid Email Error") {
+    LoginView(email: "bad-email", errorMessage: "invalidEmail")
+}
+
+#Preview("Missing Password Error") {
+    LoginView(email: "user@example.com", errorMessage: "missingPassword")
+}
+
+#Preview("Filled In") {
+    LoginView(email: "user@example.com", password: "password123")
 }
