@@ -24,10 +24,20 @@ public struct SocialButton: View {
     }
 }
 
-#Preview {
+#Preview("Light") {
     HStack(spacing: 16) {
         SocialButton(icon: "apple.logo", label: "Apple")
         SocialButton(icon: "g.circle.fill", label: "Google")
     }
     .padding()
+    .preferredColorScheme(.light)
+}
+
+#Preview("Dark") {
+    HStack(spacing: 16) {
+        SocialButton(icon: "apple.logo", label: "Apple")
+        SocialButton(icon: "g.circle.fill", label: "Google")
+    }
+    .padding()
+    .preferredColorScheme(.dark)
 }

@@ -101,6 +101,12 @@ extension SupportChatView {
     ]
 }
 
-#Preview {
+#Preview("Light") {
     SupportChatView(messages: SupportChatView.sampleMessages)
+        .preferredColorScheme(.light)
+}
+
+#Preview("Dark") {
+    SupportChatView(messages: SupportChatView.sampleMessages)
+        .preferredColorScheme(.dark)
 }

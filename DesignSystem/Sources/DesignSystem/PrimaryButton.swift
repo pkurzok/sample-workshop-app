@@ -23,7 +23,14 @@ public struct PrimaryButton: View {
     }
 }
 
-#Preview {
+#Preview("Light") {
     PrimaryButton("Sign In") {}
         .padding()
+        .preferredColorScheme(.light)
+}
+
+#Preview("Dark") {
+    PrimaryButton("Sign In") {}
+        .padding()
+        .preferredColorScheme(.dark)
 }

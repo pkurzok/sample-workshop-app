@@ -42,12 +42,26 @@ public struct StyledTextField: View {
     }
 }
 
-#Preview("Default") {
+#Preview("Default - Light") {
     StyledTextField("Email", text: .constant(""))
         .padding()
+        .preferredColorScheme(.light)
 }
 
-#Preview("With Error") {
+#Preview("Default - Dark") {
+    StyledTextField("Email", text: .constant(""))
+        .padding()
+        .preferredColorScheme(.dark)
+}
+
+#Preview("With Error - Light") {
     StyledTextField("Email", text: .constant("bad"), hasError: true, errorMessage: "Please enter a valid email")
         .padding()
+        .preferredColorScheme(.light)
+}
+
+#Preview("With Error - Dark") {
+    StyledTextField("Email", text: .constant("bad"), hasError: true, errorMessage: "Please enter a valid email")
+        .padding()
+        .preferredColorScheme(.dark)
 }

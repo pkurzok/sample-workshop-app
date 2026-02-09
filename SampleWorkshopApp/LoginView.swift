@@ -127,34 +127,76 @@ struct LoginView: View {
     }
 }
 
-#Preview("Default") {
+#Preview("Default - Light") {
     LoginView()
+        .preferredColorScheme(.light)
 }
 
-#Preview("Empty Fields Error") {
+#Preview("Default - Dark") {
+    LoginView()
+        .preferredColorScheme(.dark)
+}
+
+#Preview("Empty Fields Error - Light") {
     LoginView(
         bannerMessage: "Please fill in all fields",
         emailError: "Email is required",
         passwordError: "Password is required"
     )
+    .preferredColorScheme(.light)
 }
 
-#Preview("Invalid Email Error") {
+#Preview("Empty Fields Error - Dark") {
+    LoginView(
+        bannerMessage: "Please fill in all fields",
+        emailError: "Email is required",
+        passwordError: "Password is required"
+    )
+    .preferredColorScheme(.dark)
+}
+
+#Preview("Invalid Email Error - Light") {
     LoginView(
         email: "bad-email",
         bannerMessage: "Please enter a valid email address",
         emailError: "Please enter a valid email address"
     )
+    .preferredColorScheme(.light)
 }
 
-#Preview("Missing Password Error") {
+#Preview("Invalid Email Error - Dark") {
+    LoginView(
+        email: "bad-email",
+        bannerMessage: "Please enter a valid email address",
+        emailError: "Please enter a valid email address"
+    )
+    .preferredColorScheme(.dark)
+}
+
+#Preview("Missing Password Error - Light") {
     LoginView(
         email: "user@example.com",
         bannerMessage: "Password is required",
         passwordError: "Password is required"
     )
+    .preferredColorScheme(.light)
 }
 
-#Preview("Filled In") {
+#Preview("Missing Password Error - Dark") {
+    LoginView(
+        email: "user@example.com",
+        bannerMessage: "Password is required",
+        passwordError: "Password is required"
+    )
+    .preferredColorScheme(.dark)
+}
+
+#Preview("Filled In - Light") {
     LoginView(email: "user@example.com", password: "password123")
+        .preferredColorScheme(.light)
+}
+
+#Preview("Filled In - Dark") {
+    LoginView(email: "user@example.com", password: "password123")
+        .preferredColorScheme(.dark)
 }

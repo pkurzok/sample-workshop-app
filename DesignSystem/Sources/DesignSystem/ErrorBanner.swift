@@ -22,7 +22,14 @@ public struct ErrorBanner: View {
     }
 }
 
-#Preview {
+#Preview("Light") {
     ErrorBanner("Please fill in all fields")
         .padding()
+        .preferredColorScheme(.light)
+}
+
+#Preview("Dark") {
+    ErrorBanner("Please fill in all fields")
+        .padding()
+        .preferredColorScheme(.dark)
 }

@@ -78,8 +78,16 @@ struct AboutView: View {
     }
 }
 
-#Preview {
+#Preview("Light") {
     NavigationStack {
         AboutView()
     }
+    .preferredColorScheme(.light)
+}
+
+#Preview("Dark") {
+    NavigationStack {
+        AboutView()
+    }
+    .preferredColorScheme(.dark)
 }

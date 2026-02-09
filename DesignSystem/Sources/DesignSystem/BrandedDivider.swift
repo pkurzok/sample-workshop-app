@@ -22,7 +22,14 @@ public struct BrandedDivider: View {
     }
 }
 
-#Preview {
+#Preview("Light") {
     BrandedDivider()
         .padding()
+        .preferredColorScheme(.light)
+}
+
+#Preview("Dark") {
+    BrandedDivider()
+        .padding()
+        .preferredColorScheme(.dark)
 }
