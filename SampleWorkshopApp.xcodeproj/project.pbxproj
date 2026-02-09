@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		A74FDA202F3A2674000A32F5 /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = A74FDA212F3A2674000A32F5 /* DesignSystem */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		A74FD9F72F3A2673000A32F5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A74FDA202F3A2674000A32F5 /* DesignSystem in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +117,7 @@
 			);
 			name = SampleWorkshopApp;
 			packageProductDependencies = (
+				A74FDA212F3A2674000A32F5 /* DesignSystem */,
 			);
 			productName = SampleWorkshopApp;
 			productReference = A74FD9E92F3A2672000A32F5 /* SampleWorkshopApp.app */;
@@ -197,6 +203,9 @@
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A74FD9EA2F3A2672000A32F5 /* Products */;
+			packageReferences = (
+				A74FDA222F3A2674000A32F5 /* XCLocalSwiftPackageReference "DesignSystem" */,
+			);
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -550,6 +559,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		A74FDA222F3A2674000A32F5 /* XCLocalSwiftPackageReference "DesignSystem" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = DesignSystem;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A74FDA212F3A2674000A32F5 /* DesignSystem */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DesignSystem;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A74FD9E12F3A2672000A32F5 /* Project object */;
 }
